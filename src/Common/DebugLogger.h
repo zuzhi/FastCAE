@@ -46,9 +46,9 @@ namespace Common {
 
 // 用宏OUTPUT_DEBUG_INFO控制调试信息是否输出的开关
 #ifdef OUTPUT_DEBUG_INFO
-#define DebugInfo(FORMAT, ...) Common::DebugLogger::info(__FILE__, __LINE__, FORMAT, __VA_ARGS__)
-#define DebugWarn(FORMAT, ...) Common::DebugLogger::warning(__FILE__, __LINE__, FORMAT, __VA_ARGS__)
-#define DebugError(FORMAT, ...) Common::DebugLogger::error(__FILE__, __LINE__, FORMAT, __VA_ARGS__)
+#define DebugInfo(FORMAT, ...) Common::DebugLogger::info(__FILE__, __LINE__, FORMAT, ##__VA_ARGS__)
+#define DebugWarn(FORMAT, ...) Common::DebugLogger::warning(__FILE__, __LINE__, FORMAT, ##__VA_ARGS__)
+#define DebugError(FORMAT, ...) Common::DebugLogger::error(__FILE__, __LINE__, FORMAT, ##__VA_ARGS__)
 #else
 #define DebugInfo(FORMAT, ...)
 #define DebugWarn(FORMAT, ...)
