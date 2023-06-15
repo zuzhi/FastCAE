@@ -14,46 +14,55 @@
 #include <QApplication>
 #include <QDebug>
 
-namespace Post
-{
-	AnimationToolBar::AnimationToolBar(GUI::MainWindow *mainWindow, PostTreeWidget *tree)
-		: QToolBar(mainWindow), _mainWindow(mainWindow), _treeWidget(tree)
+namespace Post {
+	AnimationToolBar::AnimationToolBar(GUI::MainWindow* mainWindow, PostTreeWidget* tree)
+		: QToolBar(mainWindow)
+		, _mainWindow(mainWindow)
+		, _treeWidget(tree)
 	{
 		_aniAviTool = new aviSetting;
 
 		initToolBar();
 
 		_generateAni = new GenerateAnimation(_aniAviTool);
-		connect(_treeWidget, SIGNAL(currentRenderDataChanged(RenderDataObject *)), this, SLOT(on_currentRenderDataChanged(RenderDataObject *)));
+		connect(_treeWidget, SIGNAL(currentRenderDataChanged(RenderDataObject*)), this,
+				SLOT(on_currentRenderDataChanged(RenderDataObject*)));
+		connect(_treeWidget, SIGNAL(clearAllItemSig()), this,
+				SLOT(clearAllRenderObjSlot()));
+        
 		connect(this, SIGNAL(sig_generateAvi()), _generateAni, SLOT(on_generate()));
 		connect(this, SIGNAL(sig_terminateGenerateAvi()), _generateAni, SLOT(on_finishSaveAvi()));
 	}
 
-	bool AnimationToolBar::SetCurrObj(RenderDataObject *obj)
+	bool AnimationToolBar::SetCurrObj(RenderDataObject* obj)
 	{
-		_unSteadyObj = dynamic_cast<RenderDataImportUnSteady *>(obj->getRootViewObject());
+		_unSteadyObj = dynamic_cast<RenderDataImportUnSteady*>(obj->getRootViewObject());
 		//		_unSteadyObj = dynamic_cast<RenderDataImportUnSteady*>(obj);
-		if (_unSteadyObj == nullptr)
+		if(_unSteadyObj == nullptr)
 			return false;
 		return true;
 	}
 
-	void AnimationToolBar::on_currentRenderDataChanged(RenderDataObject *vobj)
+	void AnimationToolBar::on_currentRenderDataChanged(RenderDataObject* vobj)
 	{
-		auto rObj = vobj->getRootViewObject();
-		if (_unSteadyObj == rObj)
+		if(vobj == nullptr)
 			return;
-		_unSteadyObj = dynamic_cast<RenderDataImportUnSteady *>(rObj);
+		auto rObj = vobj->getRootViewObject();
+		if(_unSteadyObj == rObj)
+			return;
+		_unSteadyObj = dynamic_cast<RenderDataImportUnSteady*>(rObj);
 		// 		if (_unSteadyObj == vobj) return;
 		// 		_unSteadyObj = dynamic_cast<RenderDataImportUnSteady*>(vobj);
 		this->setEnabled(false);
-		if (_unSteadyObj == nullptr)
+		this->setEnableBtn(false);
+		if(_unSteadyObj == nullptr)
 			return;
 
 		const int n = _unSteadyObj->getTotalCount();
-		if (n < 2)
+		if(n < 2)
 			return;
 		this->setEnabled(true);
+		this->setEnableBtn(true);
 
 		_totalLabel->setText(QString(tr("Total: %1")).arg(n));
 		_spinBox->setMaximum(n - 1);
@@ -63,50 +72,53 @@ namespace Post
 
 	void AnimationToolBar::on_FirstFrame()
 	{
+		if(_unSteadyObj == nullptr)
+			return;
 		int totalCount = _unSteadyObj->getTotalCount();
-		if (totalCount < 2)
+		if(totalCount < 2)
 			return;
 		_spinBox->setValue(0);
 	}
 
-	void AnimationToolBar::on_FirstFrame(RenderDataObject *obj)
+	void AnimationToolBar::on_FirstFrame(RenderDataObject* obj)
 	{
-		if (SetCurrObj(obj))
+		if(SetCurrObj(obj))
 			on_FirstFrame();
 	}
 
 	void AnimationToolBar::on_PreviousFrame()
 	{
+		if(_unSteadyObj == nullptr)
+			return;
 		int totalCount = _unSteadyObj->getTotalCount();
-		if (totalCount < 2)
+		if(totalCount < 2)
 			return;
 		int currIndex = _spinBox->value();
-		if (currIndex <= 0)
+		if(currIndex <= 0)
 			return;
 		_spinBox->setValue(currIndex - 1);
 	}
 
-	void AnimationToolBar::on_PreviousFrame(RenderDataObject *obj)
+	void AnimationToolBar::on_PreviousFrame(RenderDataObject* obj)
 	{
-		if (SetCurrObj(obj))
+		if(SetCurrObj(obj))
 			on_PreviousFrame();
 	}
 
 	void AnimationToolBar::on_RunAnimation()
 	{
+		if(_unSteadyObj == nullptr)
+			return;
 		int totalCount = _unSteadyObj->getTotalCount();
-		if (totalCount < 2)
+		if(totalCount < 2)
 			return;
 
-		if (_aniAction->text() == tr("run"))
-		{
+		if(_aniAction->text() == tr("run")) {
 			_aniThread = new AniThread;
 			_aniAction->setIcon(QIcon("://QUI/post/stop.png"));
 			_aniAction->setText(tr("stop"));
 			_runAnimation = true;
-		}
-		else
-		{
+		} else {
 			_aniAction->setIcon(QIcon("://QUI/post/run.png"));
 			_aniAction->setText(tr("run"));
 			_runAnimation = false;
@@ -119,13 +131,12 @@ namespace Post
 
 			emit sig_terminateGenerateAvi();
 
-			return; //返回
+			return; // 返回
 		}
 
 		int currIndex = _unSteadyObj->getCurrentIndex();
 
-		if (currIndex == totalCount - 1)
-		{
+		if(currIndex == totalCount - 1) {
 			currIndex = -1; // 从索引0开始播放
 		}
 
@@ -134,19 +145,16 @@ namespace Post
 		_aniThread->start();
 		QThread::msleep(20);
 
-		while ((currIndex < totalCount - 1) && _runAnimation)
-		{
-			while (true)
-			{
-				if (g_qUnSteady.size() == 1)
-				{
+		while((currIndex < totalCount - 1) && _runAnimation) {
+			while(true) {
+				if(g_qUnSteady.size() == 1) {
 					g_mutex.lock();
 					_unSteadyObj = g_qUnSteady.dequeue();
 					_unSteadyObj->update();
-					int winID = _unSteadyObj->getRenderWinID();
-					auto graphWindow = RenderWindowManager::getInstance()->getRenderWindowByID(winID);
-					if (graphWindow == nullptr)
-					{
+					int	 winID = _unSteadyObj->getRenderWinID();
+					auto graphWindow =
+						RenderWindowManager::getInstance()->getRenderWindowByID(winID);
+					if(graphWindow == nullptr) {
 						g_mutex.unlock();
 						return;
 					}
@@ -160,8 +168,7 @@ namespace Post
 					break;
 				}
 
-				if (!_runAnimation)
-				{
+				if(!_runAnimation) {
 					_spinBox->setValue(_unSteadyObj->getCurrentIndex());
 					_aniThread->stop(true);
 					_aniThread->quit();
@@ -181,12 +188,10 @@ namespace Post
 			*/
 		}
 
-		//播放完一轮之后恢复为可播放状态
-		if (currIndex == totalCount - 1)
-		{
-			//线程关闭
-			if (_aniThread != nullptr)
-			{
+		// 播放完一轮之后恢复为可播放状态
+		if(currIndex == totalCount - 1) {
+			// 线程关闭
+			if(_aniThread != nullptr) {
 				_spinBox->setValue(_unSteadyObj->getCurrentIndex());
 				_aniThread->stop(true);
 				_aniThread->quit();
@@ -197,15 +202,14 @@ namespace Post
 			_aniAction->setIcon(QIcon("://QUI/post/run.png"));
 			_aniAction->setText(tr("run"));
 
-			//发送结束信号
+			// 发送结束信号
 			emit sig_terminateGenerateAvi();
 		}
 	}
 
-	void AnimationToolBar::on_RunAnimation(RenderDataObject *obj, int index)
+	void AnimationToolBar::on_RunAnimation(RenderDataObject* obj, int index)
 	{
-		if (SetCurrObj(obj))
-		{
+		if(SetCurrObj(obj)) {
 			this->frameTo(index);
 			qApp->processEvents();
 		}
@@ -213,105 +217,115 @@ namespace Post
 
 	void AnimationToolBar::on_NextFrame()
 	{
+		if(_unSteadyObj == nullptr)
+			return;
 		int totalCount = _unSteadyObj->getTotalCount();
-		if (totalCount < 2)
+		if(totalCount < 2)
 			return;
 		int currIndex = _spinBox->value();
-		if (currIndex >= (totalCount - 1))
+		if(currIndex >= (totalCount - 1))
 			return;
 		_spinBox->setValue(currIndex + 1);
 	}
 
-	void AnimationToolBar::on_NextFrame(RenderDataObject *obj)
+	void AnimationToolBar::on_NextFrame(RenderDataObject* obj)
 	{
-		if (SetCurrObj(obj))
+		if(SetCurrObj(obj))
 			on_NextFrame();
 	}
 
 	void AnimationToolBar::on_LastFrame()
 	{
+		if(_unSteadyObj == nullptr)
+			return;
 		int totalCount = _unSteadyObj->getTotalCount();
-		if (totalCount < 2)
+		if(totalCount < 2)
 			return;
 		_spinBox->setValue(totalCount - 1);
 	}
 
-	void AnimationToolBar::on_LastFrame(RenderDataObject *obj)
+	void AnimationToolBar::on_LastFrame(RenderDataObject* obj)
 	{
-		if (SetCurrObj(obj))
+		if(SetCurrObj(obj))
 			on_LastFrame();
 	}
 
-	void AnimationToolBar::slot_saveAnimation(RenderDataObject *obj, QString file, int fps)
+	void AnimationToolBar::slot_saveAnimation(RenderDataObject* obj, QString file, int fps)
 	{
-		if (SetCurrObj(obj))
-		{
+		if(SetCurrObj(obj)) {
 			this->setAviSetting(file, fps);
 			on_RunAnimation();
 		}
 	}
 
-	void AnimationToolBar::on_stopAnimation(RenderDataObject *obj, int index)
+	void AnimationToolBar::on_stopAnimation(RenderDataObject* obj, int index)
 	{
-		if (SetCurrObj(obj))
+		if(SetCurrObj(obj))
 			this->frameTo(index);
 	}
 
 	void AnimationToolBar::slot_runAnimation()
 	{
-		if (_aniAction->text() == tr("run"))
-		{
+		if(_unSteadyObj == nullptr)
+			return;
+		if(_aniAction->text() == tr("run")) {
 			_aniAction->setIcon(QIcon("://QUI/post/stop.png"));
 			_aniAction->setText(tr("stop"));
 			_runAnimation = true;
-		}
-		else
-		{
+		} else {
 			_aniAction->setIcon(QIcon("://QUI/post/run.png"));
 			_aniAction->setText(tr("run"));
 			_runAnimation = false;
 		}
-
+		
 		int totalCount = _unSteadyObj->getTotalCount();
-		if (totalCount < 2)
+		if(totalCount < 2)
 			return;
 
 		auto index = _spinBox->value();
-		if (index < 0 || index >= totalCount)
+		if(index < 0 || index >= totalCount)
 			return;
-		if (index == (totalCount - 1))
+		if(index == (totalCount - 1))
 			index = 0;
 
-		for (index; index < totalCount; index++)
-		{
-			if (!_runAnimation)
+		for(index; index < totalCount; index++) {
+			if(!_runAnimation)
 				break;
 			_runFinished = false;
-			QString code = QString("PostProcess.runAnimation(%1,%2)").arg(_unSteadyObj->getID()).arg(index);
+			QString code =
+				QString("PostProcess.runAnimation(%1,%2)").arg(_unSteadyObj->getID()).arg(index);
 			Py::PythonAgent::getInstance()->submit(code);
 			_runFinished = true;
 		}
 
 		// 		if (_runFinished && !_runAnimation)
 		// 		{
-		// 			QString code = QString("PostProcess.stopAnimation(%1,%2)").arg(_unSteadyObj->getID()).arg(_spinBox->value());
+		// 			QString code =
+		// QString("PostProcess.stopAnimation(%1,%2)").arg(_unSteadyObj->getID()).arg(_spinBox->value());
 		// 			Py::PythonAgent::getInstance()->submit(code);
 		//
 		// 			return;
 		// 		}
 
-		if (index == totalCount)
-		{
+		if(index == totalCount) {
 			_aniAction->setIcon(QIcon("://QUI/post/run.png"));
 			_aniAction->setText("run");
 			_runAnimation = false;
 		}
 	}
 
+	void AnimationToolBar::clearAllRenderObjSlot() {
+		this->setEnabled(false);
+		this->setEnableBtn(false);
+		_totalLabel->setText(QString(tr("Total: %1")).arg(0));
+		_spinBox->setMaximum(0);
+		_spinBox->setValue(0);
+
+    }
+
 	void AnimationToolBar::initToolBar()
 	{
-		auto addAction = [=](QString icon, QString text) -> QAction *
-		{
+		auto addAction = [=](QString icon, QString text) -> QAction* {
 			auto act = new QAction(this);
 			act->setObjectName("QAction");
 			act->setText(text);
@@ -321,32 +335,32 @@ namespace Post
 		};
 
 		_firstAction = addAction("://QUI/post/first.png", QString(tr("first")));
-		_preAction = addAction("://QUI/post/previous.png", QString(tr("previous")));
-		_aniAction = addAction("://QUI/post/run.png", QString(tr("run")));
-		_nextAction = addAction("://QUI/post/next.png", QString(tr("next")));
-		_lastAction = addAction("://QUI/post/end.png", QString(tr("last")));
+		_preAction	 = addAction("://QUI/post/previous.png", QString(tr("previous")));
+		_aniAction	 = addAction("://QUI/post/run.png", QString(tr("run")));
+		_nextAction	 = addAction("://QUI/post/next.png", QString(tr("next")));
+		_lastAction	 = addAction("://QUI/post/end.png", QString(tr("last")));
 
-		connect(_firstAction, &QAction::triggered, [=]
-				{
-			auto id = _unSteadyObj->getID();
+		connect(_firstAction, &QAction::triggered, [=] {
+			auto	id	 = _unSteadyObj->getID();
 			QString code = QString("PostProcess.firstFrame(%1)").arg(id);
-			Py::PythonAgent::getInstance()->submit(code); });
-		connect(_preAction, &QAction::triggered, [=]
-				{
-			auto id = _unSteadyObj->getID();
+			Py::PythonAgent::getInstance()->submit(code);
+		});
+		connect(_preAction, &QAction::triggered, [=] {
+			auto	id	 = _unSteadyObj->getID();
 			QString code = QString("PostProcess.proviousFrame(%1)").arg(id);
-			Py::PythonAgent::getInstance()->submit(code); });
+			Py::PythonAgent::getInstance()->submit(code);
+		});
 		connect(_aniAction, SIGNAL(triggered()), this, SLOT(slot_runAnimation()));
-		connect(_nextAction, &QAction::triggered, [=]
-				{
-			auto id = _unSteadyObj->getID();
+		connect(_nextAction, &QAction::triggered, [=] {
+			auto	id	 = _unSteadyObj->getID();
 			QString code = QString("PostProcess.nextFrame(%1)").arg(id);
-			Py::PythonAgent::getInstance()->submit(code); });
-		connect(_lastAction, &QAction::triggered, [=]
-				{
-			auto id = _unSteadyObj->getID();
+			Py::PythonAgent::getInstance()->submit(code);
+		});
+		connect(_lastAction, &QAction::triggered, [=] {
+			auto	id	 = _unSteadyObj->getID();
 			QString code = QString("PostProcess.lastFrame(%1)").arg(id);
-			Py::PythonAgent::getInstance()->submit(code); });
+			Py::PythonAgent::getInstance()->submit(code);
+		});
 		// 		connect(actFirst, SIGNAL(triggered()), this, SLOT(on_FirstFrame()));
 		// 		connect(actPre, SIGNAL(triggered()), this, SLOT(on_PreviousFrame()));
 		// 		connect(_aniAction, SIGNAL(triggered()), this, SLOT(on_RunAnimation()));
@@ -355,8 +369,8 @@ namespace Post
 
 		this->addSeparator();
 
-		QAction *action = nullptr;
-		_stepLabel = new QLabel(this);
+		QAction* action = nullptr;
+		_stepLabel		= new QLabel(this);
 		_stepLabel->setText(tr("Step:"));
 		action = this->addWidget(_stepLabel);
 		action->setObjectName("QWidget");
@@ -375,49 +389,66 @@ namespace Post
 
 		this->addSeparator();
 		this->setEnabled(false);
+		this->setEnableBtn(false);
+	}
+
+	void AnimationToolBar::setEnableBtn(bool enable)
+	{
+		_firstAction->setEnabled(enable);
+		_preAction->setEnabled(enable);
+		_aniAction->setEnabled(enable);
+		_nextAction->setEnabled(enable);
+		_lastAction->setEnabled(enable);
+		_stepLabel->setEnabled(enable);
+		_spinBox->setEnabled(enable);
+		_totalLabel->setEnabled(enable);
 	}
 
 	void AnimationToolBar::on_SpinBoxValueChanged(int i)
 	{
-		auto rootObj = _unSteadyObj->getRootViewObject();
-		auto rootObject = dynamic_cast<RenderDataImportUnSteady *>(rootObj);
-		if (rootObject == nullptr)
+		if(_unSteadyObj == nullptr)
+			return;
+		auto rootObj	= _unSteadyObj->getRootViewObject();
+		auto rootObject = dynamic_cast<RenderDataImportUnSteady*>(rootObj);
+		if(rootObject == nullptr)
 			return;
 		rootObject->setAnimationIndex(i);
 		_unSteadyObj->update();
 
 		// refresh window
-		int winID = _unSteadyObj->getRenderWinID();
+		int	 winID		 = _unSteadyObj->getRenderWinID();
 		auto graphWindow = RenderWindowManager::getInstance()->getRenderWindowByID(winID);
-		if (graphWindow == nullptr)
+		if(graphWindow == nullptr)
 			return;
 		graphWindow->reRender();
 	}
 
 	void AnimationToolBar::setAviSetting(QString aviSavePath, int fps)
 	{
-		_aniAviTool->saveFlag = true;
+		_aniAviTool->saveFlag	 = true;
 		_aniAviTool->aviFilePath = aviSavePath;
-		_aniAviTool->frameRate = fps;
+		_aniAviTool->frameRate	 = fps;
 	}
 
-	void AnimationToolBar::getAviSetting(QString &aviSavePath, int &fps)
+	void AnimationToolBar::getAviSetting(QString& aviSavePath, int& fps)
 	{
 		aviSavePath = _aniAviTool->aviFilePath;
-		fps = _aniAviTool->frameRate;
+		fps			= _aniAviTool->frameRate;
 	}
 
 	void AnimationToolBar::frameTo(int index)
 	{
+		if(_unSteadyObj == nullptr)
+			return;
 		int totalCount = _unSteadyObj->getTotalCount();
-		if (index < 0 || index >= totalCount)
+		if(index < 0 || index >= totalCount)
 			return;
 		_spinBox->setValue(index);
 	}
 
 	int AnimationToolBar::getCurrentObjectID()
 	{
-		if (_unSteadyObj == nullptr)
+		if(_unSteadyObj == nullptr)
 			return -1;
 		return _unSteadyObj->getID();
 	}
@@ -433,4 +464,4 @@ namespace Post
 		_totalLabel->setText(tr("Total: 0"));
 	}
 
-}
+} // namespace Post

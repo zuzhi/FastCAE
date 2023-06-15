@@ -26,6 +26,7 @@ namespace Post
 	signals:
 		void showPostRenderWindowSig(int id, int type);
 		void currentRenderDataChanged(RenderDataObject* obj);
+		void clearAllItemSig();
 
 	public:
 		QMultiHash<int, int> getSelectedData(RenderDataObject* obj = nullptr);

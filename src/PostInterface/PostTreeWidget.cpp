@@ -306,6 +306,10 @@ namespace Post
 	{
 		this->clear();
 		const int n = _dataManager->getRenderObjectListCount();
+		if(n == 0) 
+        {
+			emit clearAllItemSig();
+		}
 		for (int i = 0; i < n; ++i)
 		{
 			auto vObj = _dataManager->getRenderObjectListAt(i);

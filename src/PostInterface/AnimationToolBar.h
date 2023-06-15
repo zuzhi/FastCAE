@@ -98,6 +98,8 @@ namespace Post {
 	private:
 		void initToolBar();
 
+        void setEnableBtn(bool enable);
+
 	private Q_SLOTS:
 		/**
 		 * @brief spinBox值改变
@@ -110,7 +112,7 @@ namespace Post {
 		void on_LastFrame(RenderDataObject* obj);
 		void on_stopAnimation(RenderDataObject* obj,int index);
 		void slot_runAnimation();
-
+		void clearAllRenderObjSlot();
 
 	private:
 		GUI::MainWindow* _mainWindow{};
