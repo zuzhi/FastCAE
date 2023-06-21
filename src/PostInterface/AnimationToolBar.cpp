@@ -27,9 +27,8 @@ namespace Post {
 		_generateAni = new GenerateAnimation(_aniAviTool);
 		connect(_treeWidget, SIGNAL(currentRenderDataChanged(RenderDataObject*)), this,
 				SLOT(on_currentRenderDataChanged(RenderDataObject*)));
-		connect(_treeWidget, SIGNAL(clearAllItemSig()), this,
-				SLOT(clearAllRenderObjSlot()));
-        
+		connect(_treeWidget, SIGNAL(clearAllItemSig()), this, SLOT(clearAllRenderObjSlot()));
+
 		connect(this, SIGNAL(sig_generateAvi()), _generateAni, SLOT(on_generate()));
 		connect(this, SIGNAL(sig_terminateGenerateAvi()), _generateAni, SLOT(on_finishSaveAvi()));
 	}
@@ -277,7 +276,7 @@ namespace Post {
 			_aniAction->setText(tr("run"));
 			_runAnimation = false;
 		}
-		
+
 		int totalCount = _unSteadyObj->getTotalCount();
 		if(totalCount < 2)
 			return;
@@ -314,14 +313,14 @@ namespace Post {
 		}
 	}
 
-	void AnimationToolBar::clearAllRenderObjSlot() {
+	void AnimationToolBar::clearAllRenderObjSlot()
+	{
 		this->setEnabled(false);
 		this->setEnableBtn(false);
-		_totalLabel->setText(QString(tr("Total: %1")).arg(0));
-		_spinBox->setMaximum(0);
-		_spinBox->setValue(0);
-
-    }
+		//_totalLabel->setText(QString(tr("Total: %1")).arg(0));
+		//_spinBox->setMaximum(0);
+		//_spinBox->setValue(0);
+	}
 
 	void AnimationToolBar::initToolBar()
 	{
