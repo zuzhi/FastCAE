@@ -35,6 +35,7 @@ extern "C"
 	//函数返回值是无效的,不要通过返回值判断
 	bool MESHDATAEXCHANGEPLUGINAPI CGNSimportMesh(QString AbFileName, int modelId);
 	bool MESHDATAEXCHANGEPLUGINAPI MSHimportMesh(QString AbFileName, int modelId);
+	bool MESHDATAEXCHANGEPLUGINAPI FOAMimportMesh(QString AbFileName, int modelId);
 	bool MESHDATAEXCHANGEPLUGINAPI NEUimportMesh(QString AbFileName, int modelId);
 	bool MESHDATAEXCHANGEPLUGINAPI VTK_DAT_STL_importMesh(QString AbFileName, int modelId);
 	bool MESHDATAEXCHANGEPLUGINAPI INPimportMesh(QString AbFileName, int modelId);
@@ -47,6 +48,7 @@ extern "C"
 
 	bool MESHDATAEXCHANGEPLUGINAPI CGNSexportMesh(QString AbFileName, int id);
 	bool MESHDATAEXCHANGEPLUGINAPI MSHexportMesh(QString AbFileName, int id);
+	bool MESHDATAEXCHANGEPLUGINAPI FOAMexportMesh(QString AbFileName, int id);
 	bool MESHDATAEXCHANGEPLUGINAPI NEUexportMesh(QString AbFileName, int id);
 	bool MESHDATAEXCHANGEPLUGINAPI VTK_DAT_STL_exportMesh(QString AbFileName, int id);
 	bool MESHDATAEXCHANGEPLUGINAPI INPexportMesh(QString AbFileName, int id);

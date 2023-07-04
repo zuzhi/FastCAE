@@ -218,7 +218,7 @@ namespace GUI {
 				SLOT(openPostFile()));
 		connect(mainwindow->getUi()->actionDisplayPoints, &QAction::triggered,
 				[=] { this->setPostDisplayMode(0); });
-		connect(mainwindow->getUi()->actionDisplayWireframe, &QAction::triggered,
+		connect(mainwindow->getUi()->actionPostDisplayWireframe, &QAction::triggered,
 				[=] { this->setPostDisplayMode(1); });
 		connect(mainwindow->getUi()->actionDisplaySurfaceWithoutEdge, &QAction::triggered,
 				[=] { this->setPostDisplayMode(2); });
@@ -568,7 +568,7 @@ namespace GUI {
 		ui->actionDisplayNode->setEnabled(false);
 		ui->actionDisplaySurface->setEnabled(false);
 		//		ui->actionDisplaySurfaceEdge->setEnabled(false);
-		ui->actionDisplayWireFrame->setEnabled(false);
+		ui->actionPreDisplayWireFrame->setEnabled(false);
 		ui->actionCreate_Set->setEnabled(false);
 		ui->actionChecking->setEnabled(false);
 		ui->actionFilterMesh->setEnabled(false);
@@ -586,7 +586,7 @@ namespace GUI {
 		ui->actionSaveImage->setEnabled(false);
 		ui->actionSaveVideo->setEnabled(false);
 		ui->actionDisplayPoints->setEnabled(false);
-		ui->actionDisplayWireframe->setEnabled(false);
+		ui->actionPostDisplayWireframe->setEnabled(false);
 		ui->actionDisplaySurfaceWithEdge->setEnabled(false);
 		ui->actionDisplaySurfaceWithoutEdge->setEnabled(false);
 		ui->actionCreateClip->setEnabled(false);
@@ -649,13 +649,13 @@ namespace GUI {
 			ui->actionDisplayNode->setEnabled(true);
 			ui->actionDisplaySurface->setEnabled(true);
 			//			ui->actionDisplaySurfaceEdge->setEnabled(true);
-			ui->actionDisplayWireFrame->setEnabled(true);
+			ui->actionPreDisplayWireFrame->setEnabled(true);
 			ui->actionVTKTranslation->setEnabled(true);
 
 			auto gp = Setting::BusAPI::instance()->getGraphOption();
 			ui->actionDisplayNode->setChecked(gp->isShowMeshNode());
 			ui->actionDisplaySurface->setChecked(gp->isShowMeshFace());
-			ui->actionDisplayWireFrame->setChecked(gp->isShowMeshEdge());
+			ui->actionPreDisplayWireFrame->setChecked(gp->isShowMeshEdge());
 		}
 		if(subwins->isPostWindowOpened()) {
 			ui->actionViewXPlus->setEnabled(true);
@@ -671,7 +671,7 @@ namespace GUI {
 			ui->actionSaveImage->setEnabled(true);
 			ui->actionSaveVideo->setEnabled(true);
 			ui->actionDisplayPoints->setEnabled(true);
-			ui->actionDisplayWireframe->setEnabled(true);
+			ui->actionPostDisplayWireframe->setEnabled(true);
 			ui->actionDisplaySurfaceWithEdge->setEnabled(true);
 			ui->actionDisplaySurfaceWithoutEdge->setEnabled(true);
 			ui->actionCreateClip->setEnabled(true);
@@ -1247,8 +1247,8 @@ namespace GUI {
 			return;
 
 		FileDirectoryDialog dlg;
-		QStringList			filterTypes = { "VTK(*.vtk)", "CGNS(*.cgns)", "Plot3D(*.x)",
-                                            "Tecplot(*.szplt)","VTU(*.vtu)","PVTU(*.pvtu)" };
+		QStringList			filterTypes = { "VTK(*.vtk)",		"CGNS(*.cgns)", "Plot3D(*.x)",
+											"Tecplot(*.szplt)", "VTU(*.vtu)",	"PVTU(*.pvtu)" };
 		dlg.iniFileFilterType(filterTypes);
 		if(dlg.exec() != QDialog::Accepted)
 			return;

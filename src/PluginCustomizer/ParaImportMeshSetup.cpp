@@ -40,6 +40,7 @@ namespace FastCAEDesigner{
 		{
 			ui->chk_cgns->setChecked(true);
 			ui->chk_flunet->setChecked(true);
+            ui->chk_openfoam->setChecked(true);
 			ui->chk_gambit->setChecked(true);
 			ui->chk_stl->setChecked(true);
 			ui->chk_tecplot->setChecked(true);
@@ -55,6 +56,7 @@ namespace FastCAEDesigner{
 		{
 			ui->chk_cgns->setChecked(false);
 			ui->chk_flunet->setChecked(false);
+			ui->chk_openfoam->setChecked(false);
 			ui->chk_gambit->setChecked(false);
 			ui->chk_stl->setChecked(false);
 			ui->chk_tecplot->setChecked(false);
@@ -78,6 +80,10 @@ namespace FastCAEDesigner{
 		if (ui->chk_flunet->isChecked())
 		{
 			sl.append("msh");
+		}
+		if (ui->chk_openfoam->isChecked())
+		{
+			sl.append("foam");
 		}
 		if (ui->chk_gambit->isChecked())
 		{
@@ -147,6 +153,11 @@ namespace FastCAEDesigner{
 				ui->chk_flunet->setChecked(true);
 				a = a + 1;
 			}
+			if (sl.at(i) == "foam")
+			{
+				ui->chk_openfoam->setChecked(true);
+				a = a + 1;
+			}
 			if (sl.at(i) == "neu")
 			{
 				ui->chk_gambit->setChecked(true);
@@ -208,6 +219,7 @@ namespace FastCAEDesigner{
 	void ParaImportMeshSetup::CancelCheckAll()
 	{
 		if ((ui->chk_cgns->isChecked()) && (ui->chk_flunet->isChecked()) && (ui->chk_gambit->isChecked()) &&
+			(ui->chk_openfoam->isChecked()) &&
 			(ui->chk_stl->isChecked()) && (ui->chk_tecplot->isChecked()) && (ui->chk_vtk->isChecked()) 
 			&& (ui->chk_inp->isChecked()) && (ui->chk_cntm->isChecked()) && (ui->chk_su2->isChecked())
 			&& (ui->chk_key->isChecked()) && (ui->chk_pdb->isChecked()) && (ui->chk_bdf->isChecked()))

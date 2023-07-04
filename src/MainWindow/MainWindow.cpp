@@ -206,7 +206,7 @@ namespace GUI {
 		connect(this, SIGNAL(closeMainWindow()), this, SLOT(closeWindow()));
 		connect(this, SIGNAL(sendInfoToStatesBar(QString)), this, SLOT(setStatusBarInfo(QString)));
 		//		connect(this, SIGNAL(importMeshByNamesSig(QString)), this,
-		//SLOT(importMesh(QString)));
+		// SLOT(importMesh(QString)));
 		connect(this, SIGNAL(importMeshDataSetSig(vtkDataSet*)), this,
 				SLOT(importMeshDataset(vtkDataSet*)));
 		connect(this, SIGNAL(printMessageSig(Common::Message, QString)), this,
@@ -280,7 +280,7 @@ namespace GUI {
 		// 网格显示模式
 		//		_displayModeSignalMapper = new QSignalMapper(this);
 		connect(_ui->actionDisplayNode, SIGNAL(triggered()), this, SLOT(setMeshDisplay()));
-		connect(_ui->actionDisplayWireFrame, SIGNAL(triggered()), this, SLOT(setMeshDisplay()));
+		connect(_ui->actionPreDisplayWireFrame, SIGNAL(triggered()), this, SLOT(setMeshDisplay()));
 		connect(_ui->actionDisplaySurface, SIGNAL(triggered()), this, SLOT(setMeshDisplay()));
 		// 几何显示模式(点、线、面)
 		connect(_ui->actionDisplayPoint, SIGNAL(triggered()), this, SLOT(setGeometryDisplay()));
@@ -328,7 +328,7 @@ namespace GUI {
 		connect(this, SIGNAL(updatePreMeshActorSig()), this, SLOT(updatePreMeshActor()));
 		connect(this, SIGNAL(updatePreGeometryActorSig()), this, SLOT(updatePreGeometryActor()));
 
-        connect(this, SIGNAL(openPlot()), _signalHandler, SLOT(openPlotFile()));
+		connect(this, SIGNAL(openPlot()), _signalHandler, SLOT(openPlotFile()));
 	}
 
 	void MainWindow::registerMoudel()
@@ -884,7 +884,7 @@ namespace GUI {
 	void MainWindow::setMeshDisplay()
 	{
 		bool showNode = _ui->actionDisplayNode->isChecked();
-		bool showEdge = _ui->actionDisplayWireFrame->isChecked();
+		bool showEdge = _ui->actionPreDisplayWireFrame->isChecked();
 		bool showFace = _ui->actionDisplaySurface->isChecked();
 
 		auto gp		  = Setting::BusAPI::instance()->getGraphOption();

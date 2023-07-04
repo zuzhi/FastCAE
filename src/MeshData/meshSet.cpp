@@ -360,4 +360,20 @@ QString MeshSet::setTypeToString(SetType type)
     }
     return qtype;
 }
+
+BoundMeshSet::BoundMeshSet(): MeshSet()
+{
+
+}
+
+void BoundMeshSet::setCellFaces(const QMap<int, QVector<int>> cellFaces)
+{
+	m_CellFaces = cellFaces;
+}
+
+QMap<int, QVector<int>> BoundMeshSet::getCellFaces()
+{
+	return m_CellFaces;
+}
+
 }

@@ -14,6 +14,7 @@
 #include "PDBdataExchange.h"
 #include "SU2dataExchange.h"
 #include "VTKdataExchange.h"
+#include "FoamDataExchange.h"
 
 #include <QFileInfo>
 
@@ -29,6 +30,7 @@ namespace MeshData {
 	{
 		IO::IOConfigure::RegisterMeshImporter("CGNS(*.cgns)", CGNSimportMesh);
 		IO::IOConfigure::RegisterMeshImporter("Fluent(*.msh)", MSHimportMesh);
+		IO::IOConfigure::RegisterMeshImporter("OpenFOAM(*.foam)", FOAMimportMesh);
 		IO::IOConfigure::RegisterMeshImporter("Gambit(*.neu)", NEUimportMesh);
 		IO::IOConfigure::RegisterMeshImporter("STL(*.stl)", VTK_DAT_STL_importMesh);
 		IO::IOConfigure::RegisterMeshImporter("Tecplot(*.dat)", VTK_DAT_STL_importMesh);
@@ -42,6 +44,7 @@ namespace MeshData {
 
 		IO::IOConfigure::RegisterMeshExporter("CGNS(*.cgns)", CGNSexportMesh);
 		IO::IOConfigure::RegisterMeshExporter("Fluent(*.msh)", MSHexportMesh);
+		IO::IOConfigure::RegisterMeshExporter("OpenFOAM(*.foam)", FOAMexportMesh);
 		IO::IOConfigure::RegisterMeshExporter("Gambit(*.neu)", NEUexportMesh);
 		IO::IOConfigure::RegisterMeshExporter("STL(*.stl)", VTK_DAT_STL_exportMesh);
 		IO::IOConfigure::RegisterMeshExporter("Tecplot(*.dat)", VTK_DAT_STL_exportMesh);
@@ -300,5 +303,23 @@ bool MESHDATAEXCHANGEPLUGINAPI PDBexportMesh(QString AbFileName, int modelId)
 	ModuleBase::ThreadControl* tc = new ModuleBase::ThreadControl(PDBWriter);
 	emit					   tc->threadStart();
 	// emit PDBWriter->start();
+	return false;
+}
+
+bool MESHDATAEXCHANGEPLUGINAPI FOAMimportMesh(QString AbFileName, int modelId)
+{
+	auto foamReader = new MeshData::FoamDataExchange(AbFileName, MeshData::MESH_READ,
+		MeshData::MeshDataExchangePlugin::getMWpt());
+	ModuleBase::ThreadControl* tc = new ModuleBase::ThreadControl(foamReader);
+	emit					   tc->threadStart(); // emit MSHreader->start();
+	return false;
+}
+
+bool MESHDATAEXCHANGEPLUGINAPI FOAMexportMesh(QString AbFileName, int id)
+{
+	auto FoamWriter = new MeshData::FoamDataExchange(
+		AbFileName, MeshData::MESH_WRITE, MeshData::MeshDataExchangePlugin::getMWpt(), id);
+	ModuleBase::ThreadControl* tc = new ModuleBase::ThreadControl(FoamWriter);
+	emit					   tc->threadStart(); // emit MSHwriter->start();
 	return false;
 }

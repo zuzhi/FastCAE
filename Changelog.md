@@ -3,7 +3,7 @@
 Version：2.5.x
 
 ---
-更新时间：2020-05-08
+更新时间：2020-07-04
 
 **新增功能**
 - 后处理增加tecplot文件（szplt）的读取。
@@ -11,6 +11,7 @@ Version：2.5.x
 - 新增自动打包功能，Windows需要NSIS 3.03+、Linux需要dpkg-deb或者rpmbuild(需要python3）。
 - 新增文档自动生成功能，需要安装Doxygen和Graphviz。
 - 增加vtu、pvtu格式的后处理文件支持
+- 增加OpenFOAM的网格文件支持，目前仅支持ascii格式，且不支持并行划分的网格
 
 **功能优化**
 - 代码全部采用cmake进行管理，可任意选择vscode、Visual Studio、Clion、Qtcreator等支持cmake系统的IDE。
@@ -26,6 +27,8 @@ Version：2.5.x
 - 修复linux环境卸载插件时崩溃的问题
 - 修复单个窗口下视图控制不正常的问题
 - 修复几何绘制线段失败的问题
+- 修复后处理动画崩溃问题
+- 修复因前后处理工具栏的显示边框按钮对象同名导致的后处理无法点击显示边框的问题
 
 **其他**
 - OpenCASCADE的版本变更(7.5.0->7.6.0)。

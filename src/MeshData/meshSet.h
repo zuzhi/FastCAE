@@ -6,6 +6,7 @@
 #include <QString>
 #include <QMultiHash>
 #include <QColor>
+#include <QMap>
 
 class vtkDataSet;
 class vtkUnstructuredGrid;
@@ -102,7 +103,19 @@ namespace MeshData
 	//	static int maxID;
 	};
 
+	//用于流体网格边界信息存储。边界由多个单元的一个或多个面组成。
+	class MESHDATAAPI BoundMeshSet : public MeshSet
+	{
+	public:
+		BoundMeshSet();
+		~BoundMeshSet() = default;
+		void setCellFaces(const QMap<int, QVector<int>> cellFaces);
+		QMap<int, QVector<int>> getCellFaces();
+	protected:
+		//key为单元索引，value为该单元的面索引
+		QMap<int, QVector<int>> m_CellFaces{};
 
+	};
 
 }
 

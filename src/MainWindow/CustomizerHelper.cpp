@@ -348,7 +348,7 @@ namespace GUI {
 			_ui->menuSelect->setEnabled(on);
 		}
 		_ui->actionDisplayNode->setVisible(on);
-		_ui->actionDisplayWireFrame->setVisible(on);
+		_ui->actionPreDisplayWireFrame->setVisible(on);
 		_ui->actionDisplaySurface->setVisible(on);
 		//		_ui->actionDisplaySurfaceEdge->setVisible(on);
 
