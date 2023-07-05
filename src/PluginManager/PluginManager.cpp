@@ -20,13 +20,12 @@
 #include <dlfcn.h>
 #endif
 
-namespace Plugins
-{
-	PluginManager *PluginManager::_instance = nullptr;
+namespace Plugins {
+	PluginManager* PluginManager::_instance = nullptr;
 
-	PluginManager *PluginManager::getInstance()
+	PluginManager* PluginManager::getInstance()
 	{
-		if (_instance == nullptr)
+		if(_instance == nullptr)
 			_instance = new PluginManager;
 		return _instance;
 	}
@@ -39,37 +38,34 @@ namespace Plugins
 	void PluginManager::releasePlugs()
 	{
 		int nplug = _pluginList.size();
-		for (int i = 0; i < nplug; ++i)
-		{
-			Plugins::PluginBase *p = _pluginList.at(i);
-			bool ok = p->uninstall();
-			if (!ok)
+		for(int i = 0; i < nplug; ++i) {
+			Plugins::PluginBase* p	= _pluginList.at(i);
+			bool				 ok = p->uninstall();
+			if(!ok)
 				continue;
 			delete p;
 		}
 		_pluginList.clear();
 	}
 
-	void PluginManager::loadPlugs(GUI::MainWindow *m)
+	void PluginManager::loadPlugs(GUI::MainWindow* m)
 	{
 		_mainWindow = m;
-		if (m != nullptr)
+		if(m != nullptr)
 			connect(this, SIGNAL(updateActionStates()), m, SIGNAL(updateActionStatesSig()));
-		QStringList plugins = Setting::BusAPI::instance()->getPlugins();
+		QStringList	  plugins = Setting::BusAPI::instance()->getPlugins();
 		const QString plugdir = QApplication::applicationDirPath() + "/plugins/";
-		QDir dir(plugdir);
-		if (!dir.exists())
-		{
+		QDir		  dir(plugdir);
+		if(!dir.exists()) {
 			plugins.clear();
 			Setting::BusAPI::instance()->setPlugins(plugins);
 			return;
 		}
 
-		for (int i = 0; i < plugins.size(); ++i)
-		{
+		for(int i = 0; i < plugins.size(); ++i) {
 			QString pluginname = plugins.at(i);
-			bool ok = loadPlugin(pluginname);
-			if (!ok)
+			bool	ok		   = loadPlugin(pluginname);
+			if(!ok)
 				plugins.removeOne(pluginname);
 		}
 		Setting::BusAPI::instance()->setPlugins(plugins);
@@ -77,40 +73,36 @@ namespace Plugins
 
 	bool PluginManager::loadPlugin(QString pluginname)
 	{
-		if (isFileLoaded(pluginname))
+		if(isFileLoaded(pluginname))
 			return false;
 
-		QString lang = Setting::BusAPI::instance()->getLanguage();
-		const QString plugdir = QApplication::applicationDirPath() + "/plugins/";
-		QString plugpath = plugdir + pluginname;
+		QString		  lang	   = Setting::BusAPI::instance()->getLanguage();
+		const QString plugdir  = QApplication::applicationDirPath() + "/plugins/";
+		QString		  plugpath = plugdir + pluginname;
 
 		qDebug() << pluginname;
 
-		typedef void (*Reg)(GUI::MainWindow *, QList<Plugins::PluginBase *> *);
+		typedef void (*Reg)(GUI::MainWindow*, QList<Plugins::PluginBase*>*);
 		Reg fun = nullptr;
 
 #ifdef Q_OS_WIN
-		if (!pluginname.toLower().startsWith("plugin"))
+		if(!pluginname.toLower().startsWith("plugin"))
 			return false;
-		if (!pluginname.toLower().endsWith(".dll"))
+		if(!pluginname.toLower().endsWith(".dll"))
 			return false;
 
 		HMODULE hmodel = LoadLibrary(LPCWSTR(plugpath.utf16()));
-		if (hmodel)
-		{
+		if(hmodel) {
 			fun = (Reg)GetProcAddress(hmodel, "Register");
-			if (fun)
-			{
+			if(fun) {
 				fun(_mainWindow, &_pluginList);
-				Plugins::PluginBase *pls = _pluginList.last();
+				Plugins::PluginBase* pls = _pluginList.last();
 				qDebug() << "Plugin: " << pls->getDescribe();
 				pls->install();
 				pls->setFileName(pluginname);
 				pls->setWinModule(hmodel);
 				pls->reTranslate(lang);
-			}
-			else
-			{
+			} else {
 				FreeLibrary(hmodel);
 				return false;
 			}
@@ -118,26 +110,25 @@ namespace Plugins
 #endif
 
 #ifdef Q_OS_LINUX
-		if (!pluginname.toLower().startsWith("libplugin"))
+		if(!pluginname.toLower().startsWith("libplugin"))
 			return false;
-		if (!pluginname.toLower().endsWith(".so"))
+		if(!pluginname.toLower().endsWith(".so"))
 			return false;
-		void *pHandle = dlopen(plugpath.toLatin1().data(), RTLD_NOW);
-		if (!pHandle)
+		void* pHandle = dlopen(plugpath.toLatin1().data(), RTLD_NOW);
+		if(!pHandle) {
+			qDebug() << "dlopen error: " << dlerror();
 			return false;
+		}
 		fun = (Reg)dlsym(pHandle, "Register");
-		if (fun)
-		{
+		if(fun) {
 			fun(_mainWindow, &_pluginList);
-			Plugins::PluginBase *pls = _pluginList.last();
+			Plugins::PluginBase* pls = _pluginList.last();
 			qDebug() << "Plugin: " << pls->getDescribe();
 			pls->install();
 			pls->setFileName(pluginname);
 			pls->setLinuxModule(pHandle);
 			pls->reTranslate(lang);
-		}
-		else
-		{
+		} else {
 			// plugins.removeOne(pluginname);
 			dlclose(pHandle);
 			return false;
@@ -150,18 +141,16 @@ namespace Plugins
 	void PluginManager::reTranslate(QString lang)
 	{
 		const int n = _pluginList.size();
-		for (int i = 0; i < n; ++i)
-		{
+		for(int i = 0; i < n; ++i) {
 			auto p = _pluginList.at(i);
 			p->reTranslate(lang);
 		}
 	}
 
-	PluginBase *PluginManager::getPluginByDescribe(QString des)
+	PluginBase* PluginManager::getPluginByDescribe(QString des)
 	{
-		for (auto p : _pluginList)
-		{
-			if (des.toLower() == p->getDescribe().toLower())
+		for(auto p : _pluginList) {
+			if(des.toLower() == p->getDescribe().toLower())
 				return p;
 		}
 		return nullptr;
@@ -175,12 +164,10 @@ namespace Plugins
 
 	bool PluginManager::releasePlugin(QString name)
 	{
-		for (auto p : _pluginList)
-		{
-			if (name == p->getFileName())
-			{
+		for(auto p : _pluginList) {
+			if(name == p->getFileName()) {
 				bool ok = p->uninstall();
-				if (!ok)
+				if(!ok)
 					return false;
 				delete p;
 				_pluginList.removeOne(p);
@@ -191,38 +178,37 @@ namespace Plugins
 		return true;
 	}
 
-	QList<PluginBase *> PluginManager::getPluginsByType(PluginType t)
+	QList<PluginBase*> PluginManager::getPluginsByType(PluginType t)
 	{
-		QList<PluginBase *> ps;
+		QList<PluginBase*> ps;
 
-		for (PluginBase *p : _pluginList)
-		{
-			if (p->getType() == t)
+		for(PluginBase* p : _pluginList) {
+			if(p->getType() == t)
 				ps.append(p);
 		}
 
 		return ps;
 	}
 
-	QDomElement &PluginManager::writeToProjectFile(QDomDocument *doc, QDomElement *parent)
+	QDomElement& PluginManager::writeToProjectFile(QDomDocument* doc, QDomElement* parent)
 	{
 		QDomElement pgsele = doc->createElement("Plugins");
-		for (auto p : _pluginList)
+		for(auto p : _pluginList)
 			p->writeToProjectFile(doc, &pgsele);
 		parent->appendChild(pgsele);
 		return pgsele;
 	}
 
-	void PluginManager::readDataFromProjectFile(QDomElement *e)
+	void PluginManager::readDataFromProjectFile(QDomElement* e)
 	{
-		for (auto p : _pluginList)
+		for(auto p : _pluginList)
 			p->readFromProjectFile(e);
 	}
 
 	bool PluginManager::hasInfoToSave()
 	{
-		for (auto p : _pluginList)
-			if (p->hasInfoToSave())
+		for(auto p : _pluginList)
+			if(p->hasInfoToSave())
 				return true;
 
 		return false;
@@ -230,13 +216,12 @@ namespace Plugins
 
 	bool PluginManager::isFileLoaded(const QString fileName)
 	{
-		for (auto p : _pluginList)
-		{
+		for(auto p : _pluginList) {
 			QString name = p->getFileName();
-			if (name.toLower() == fileName.toLower())
+			if(name.toLower() == fileName.toLower())
 				return true;
 		}
 		return false;
 	}
 
-}
+} // namespace Plugins
