@@ -1187,7 +1187,7 @@ namespace MeshData
 		}
 	}
 
-	void CFDMshFileParser::stringSplit(const std::string str, const const char split, std::vector<std::string> &vec)
+	void CFDMshFileParser::stringSplit(const std::string str, const char split, std::vector<std::string> &vec)
 	{
 		std::istringstream iss(str);
 		std::string token;
