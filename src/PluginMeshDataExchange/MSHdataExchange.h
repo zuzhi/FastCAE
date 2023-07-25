@@ -49,33 +49,12 @@ namespace MeshData
 		~MSHdataExchange();
 
 		bool read();
-		QString readLine();
-		//读取文件头判断是GAMBIT to Flent文件还是Flent生成文件
-		bool readHeader();
 		bool write();
 		void run() ;
 
 	private:
 		meshType mMeshType{ typeNone };
 		int _totalNumber;
-		//读取16进制点
-		void readPoints10(vtkUnstructuredGrid* dataset, QString info);		
-		void readPoints130(vtkUnstructuredGrid* dataset, QString info);
-		void readCells120(vtkUnstructuredGrid* dataset, QString info);
-		void readFluentCells12(vtkUnstructuredGrid* dataset, QString info);
-		void readZone45(QString zone);
-		//wzy添加用于读取面
-		bool readFace13(vtkUnstructuredGrid* dataset, QString info);
-		//去掉头标志下一处中的括号等信息
-		QString getNextLineInfo(QString line);
-		//判断头信息中是否有16进制字符串
-		bool isHex(QString line);
-		//判断输入字符串，是16进制还是10进制，调用不同转换方法
-		int  strToInt(QString line,bool isHex=false);
-		//解析Gambit生成fluent文件
-		bool readGambitFile(vtkUnstructuredGrid* dataset);
-		//解析Flent文件
-		bool readFluentFile(vtkUnstructuredGrid* dataset);
 
 	private:
 		QFile *_file;
@@ -90,7 +69,7 @@ namespace MeshData
 		int _ND{ 3 };
 		int _staticid{ 0 };
 		int _modelId;
-		MeshOperation _operation;	
+		MeshOperation _operation;
 	};
 	/**
 	 * @brief   msh文件解析类。解析后所得信息中索引均以1开始，使用vtk渲染时注意索引的转换。
