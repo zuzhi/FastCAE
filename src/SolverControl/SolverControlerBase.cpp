@@ -105,7 +105,8 @@ namespace SolverControl {
 		_processBar	 = new ModuleBase::ProcessBar(_mainWindow, _description, false);
 
 		QString args = _solver->getParameter();
-		QRegExp regExp("%.*%");
+		args.replace("%modelpath%", startPath, Qt::CaseInsensitive);
+		/*QRegExp regExp("%.*%");
 		regExp.setMinimal(true);
 		// int pos = regExp.indexIn(args);
 		QStringList variables = regExp.capturedTexts();
@@ -114,8 +115,7 @@ namespace SolverControl {
 			QString va		 = variable.remove("%");
 			if(va.toLower() == "modelpath")
 				args.replace(variables.at(i), startPath);
-			//			qDebug() << args;
-		}
+		}*/
 
 		// 		QString startProcess = solverPath + " " + args;
 		// 		if (solverPath.contains(" "))
