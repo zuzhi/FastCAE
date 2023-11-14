@@ -136,7 +136,7 @@ namespace Post
 		QStringList pArray = _parentObject->getPointDataArray();
 		for (auto array : pArray)
 		{
-			if (_parentObject->variableType(1, array) != 1)
+			if (_parentObject->variableType(1, array) != "scalar")
 				continue;
 
 			_ui->variableComboBox->addItem(array);
