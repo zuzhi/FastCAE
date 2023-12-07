@@ -47,14 +47,14 @@ namespace ModelData
 		QString getReportAt(int index);
 		//移除第index个报告
 		void removeReportAt(int index);
-		//设置属性，网格组件ID与属性ID
-		void setProperty(int setID, int pid);
+		//设置材料，网格组件ID与材料ID
+		void setMaterial(int setID, int materialID);
 		//获取组件的材料ID
-		int getPropertyID(int setid);
+		int getMaterialID(int setid);
 		//组件是否被设置材料
-		bool isPropertySetted(int setid);
-		//解除属性与组件的绑定
-		void removeProperty(int setid);
+		bool isMaterialSetted(int setid);
+		//解除材料与组件的绑定
+		void removeMaterial(int setid);
 		
 		virtual void setComponentIDList(QList<int> ids);
 
@@ -138,7 +138,7 @@ namespace ModelData
 		
 	protected:
 		QList<int> _inpMaterIds;
-		QHash<int, int> _setProperty{};
+		QHash<int, int> _setMaterial{};
 		QStringList _reportList{};
 		QHash<int, DataProperty::DataBase*> _configData{};
 		QStringList _monitorFiles{};

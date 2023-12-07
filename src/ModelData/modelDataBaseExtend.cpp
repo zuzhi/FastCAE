@@ -80,23 +80,23 @@ namespace ModelData
 
 	QDomElement& ModelDataBaseExtend::writeToProjectFile(QDomDocument* doc, QDomElement* e)
 	{
-        QDomElement element = ModelDataBase::writeToProjectFile(doc, e);
-		QDomElement propele = doc->createElement("Property");
-		QList<int> setidlist = _setProperty.keys();
+		QDomElement element = ModelDataBase::writeToProjectFile(doc, e);
+		QDomElement materialele = doc->createElement("Material");
+		QList<int> setidlist = _setMaterial.keys();
 		for (int i = 0; i < setidlist.size(); ++i)
 		{
 			int setid = setidlist.at(i);
-			int propid = _setProperty.value(setid);
-			QDomElement mc = doc->createElement("PropInfo");
+			int materialid = _setMaterial.value(setid);
+			QDomElement mc = doc->createElement("MaterialInfo");
 			QDomAttr setattr = doc->createAttribute("ComponentID");
-			QDomAttr propattr = doc->createAttribute("PropID");
+			QDomAttr materialattr = doc->createAttribute("MaterialID");
 			setattr.setValue(QString::number(setid));
-			propattr.setValue(QString::number(propid));
+			materialattr.setValue(QString::number(materialid));
 			mc.setAttributeNode(setattr);
-			mc.setAttributeNode(propattr);
-			propele.appendChild(mc);
+			mc.setAttributeNode(materialattr);
+			materialele.appendChild(mc);
 		}
-		element.appendChild(propele);
+		element.appendChild(materialele);
 
 		QDomElement configele = doc->createElement("ConfigData");
 		QList<DataProperty::DataBase*> datalist = _configData.values();
@@ -131,15 +131,15 @@ namespace ModelData
 	{
 		ModelDataBase::writeToProjectFile1(doc, e);
 
-		QDomElement materialele = doc->createElement("Property");
-		QList<int> setidlist = _setProperty.keys();
+		QDomElement materialele = doc->createElement("Material");
+		QList<int> setidlist = _setMaterial.keys();
 		for (int i = 0; i < setidlist.size(); ++i)
 		{
 			int setid = setidlist.at(i);
-			int materialid = _setProperty.value(setid);
-			QDomElement mc = doc->createElement("PropInfo");
+			int materialid = _setMaterial.value(setid);
+			QDomElement mc = doc->createElement("MaterialInfo");
 			QDomAttr setattr = doc->createAttribute("ComponentID");
-			QDomAttr materialattr = doc->createAttribute("PropID");
+			QDomAttr materialattr = doc->createAttribute("MaterialID");
 			setattr.setValue(QString::number(setid));
 			materialattr.setValue(QString::number(materialid));
 			mc.setAttributeNode(setattr);
@@ -176,15 +176,15 @@ namespace ModelData
 	void ModelDataBaseExtend::readDataFromProjectFile(QDomElement* e)
 	{
 		ModelDataBase::readDataFromProjectFile(e);
-		QDomNodeList materialList = e->elementsByTagName("PropInfo");
+		QDomNodeList materialList = e->elementsByTagName("MaterialInfo");
 		for (int i = 0; i < materialList.size(); ++i)
 		{
 			QDomElement ele = materialList.at(i).toElement();
 			QString ssetid = ele.attribute("ComponentID");
-			QString smaterialID = ele.attribute("PropID");
+			QString smaterialID = ele.attribute("MaterialID");
 			int setid = ssetid.toInt();
 			int maid = smaterialID.toInt();
-			this->setProperty(setid, maid);
+			this->setMaterial(setid, maid);
 		}
 
 		QDomNodeList configdata = e->elementsByTagName("ConfigData");
@@ -233,38 +233,38 @@ namespace ModelData
 		this->writeToProjectFile(doc, e);
 	}
 
-	void ModelDataBaseExtend::setProperty(int setID, int materialID)
+	void ModelDataBaseExtend::setMaterial(int setID, int materialID)	
 	{
 		if (!_ComponentIDList.contains(setID) || materialID <= 0) return;
-		_setProperty[setID] = materialID;
+		_setMaterial[setID] = materialID;
 	}
 
-	int ModelDataBaseExtend::getPropertyID(int setid)
+	int ModelDataBaseExtend::getMaterialID(int setid)
 	{
 		int m = -1;
-		if (_setProperty.contains(setid))
+		if (_setMaterial.contains(setid))
 		{
-			m = _setProperty.value(setid);
+			m = _setMaterial.value(setid);
 		}
 		return m;
 	}
 
-	bool ModelDataBaseExtend::isPropertySetted(int setid)
+	bool ModelDataBaseExtend::isMaterialSetted(int setid)
 	{
 		bool s = false;
-		if (_setProperty.contains(setid))
+		if (_setMaterial.contains(setid))
 		{
-			if (_setProperty.value(setid) >= 0)
+			if (_setMaterial.value(setid) >= 0)
 				s = true;
 		}
 		return s;
 	}
 
-	void ModelDataBaseExtend::removeProperty(int setid)
+	void ModelDataBaseExtend::removeMaterial(int setid)
 	{
-		if (_setProperty.contains(setid))
+		if (_setMaterial.contains(setid))
 		{
-			_setProperty.remove(setid);
+			_setMaterial.remove(setid);
 		}
 	}
 
@@ -277,8 +277,8 @@ namespace ModelData
 
 		for (int id : removeid)
 		{
-			if (_setProperty.contains(id))
-				_setProperty.remove(id);
+			if (_setMaterial.contains(id))
+				_setMaterial.remove(id);
 			for (auto bc : _bcList)
 			{
 				if (bc->getComponentID() == id)
@@ -296,9 +296,9 @@ namespace ModelData
 	{
 		assert(index >= 0 && index < _ComponentIDList.size());
 		int id = _ComponentIDList.at(index);
-		if (isPropertySetted(id))
+		if (isMaterialSetted(id))
 		{
-			removeProperty(id);
+			removeMaterial(id);
 		}
 		ModelDataBase::removeComponentAt(index);
 	}

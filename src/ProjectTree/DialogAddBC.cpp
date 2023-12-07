@@ -9,10 +9,10 @@
 // #include "BCBase/BCPressure.h"
 // #include "BCBase/BCDisplacement.h"
 #include "ModelData/modelDataBaseExtend.h"
-#include "MeshData/meshSingleton.h"
-#include "MeshData/meshSet.h"
-#include "Geometry/geometryData.h"
-#include "Geometry/GeoComponent.h"
+#include "meshData/meshSingleton.h"
+#include "meshData/meshSet.h"
+#include "geometry/geometryData.h"
+#include "geometry/GeoComponent.h"
 #include "ConfigOptions/ConfigOptions.h"
 #include "ConfigOptions/BCConfig.h"
 #include <assert.h>
@@ -20,19 +20,17 @@
 #include <QDebug>
 #include "ModelData/modelDataBase.h"
 #include "ModelData/modelDataSingleton.h"
-namespace ProjectTree
-{
+namespace ProjectTree {
 
-	AddBCDialog::AddBCDialog(GUI::MainWindow *m, ModelData::ModelDataBaseExtend *data)
-		: QFDialog(m), _data(data)
+	AddBCDialog::AddBCDialog(GUI::MainWindow* m, ModelData::ModelDataBaseExtend* data)
+		: QFDialog(m)
+		, _data(data)
 	{
 		_ui = new Ui::AddBCDialog();
 		_ui->setupUi(this);
 		init();
 	}
-	AddBCDialog::~AddBCDialog()
-	{
-	}
+	AddBCDialog::~AddBCDialog() {}
 	void AddBCDialog::init()
 	{
 		initBCType();
@@ -40,24 +38,22 @@ namespace ProjectTree
 	}
 	void AddBCDialog::initComponents()
 	{
-		MeshData::MeshData *mesh = MeshData::MeshData::getInstance();
-		QList<int> mshList = _data->getMeshSetList();
-		for (int i = 0; i < mshList.size(); ++i)
-		{
-			int setID = mshList.at(i);
-			MeshData::MeshSet *set = mesh->getMeshSetByID(setID);
+		MeshData::MeshData* mesh	= MeshData::MeshData::getInstance();
+		QList<int>			mshList = _data->getMeshSetList();
+		for(int i = 0; i < mshList.size(); ++i) {
+			int				   setID = mshList.at(i);
+			MeshData::MeshSet* set	 = mesh->getMeshSetByID(setID);
 			assert(set != nullptr);
 			QString name = set->getName();
 			_ui->setComboBox->addItem(name, Qt::UserRole + 1);
 			_ui->setComboBox->setItemData(_ui->setComboBox->count() - 1, setID, Qt::UserRole + 1);
 		}
 
-		auto geoData = Geometry::GeometryData::getInstance();
-		QList<int> gcList = _data->getGeoComponentIDList();
-		for (int i = 0; i < gcList.size(); ++i)
-		{
-			int gcID = gcList.at(i);
-			auto *aGC = geoData->getGeoComponentByID(gcID);
+		auto	   geoData = Geometry::GeometryData::getInstance();
+		QList<int> gcList  = _data->getGeoComponentIDList();
+		for(int i = 0; i < gcList.size(); ++i) {
+			int	  gcID = gcList.at(i);
+			auto* aGC  = geoData->getGeoComponentByID(gcID);
 			assert(aGC != nullptr);
 			QString name = aGC->getName();
 			_ui->setComboBox->addItem(name, Qt::UserRole + 1);
@@ -66,21 +62,21 @@ namespace ProjectTree
 	}
 	void AddBCDialog::initBCType()
 	{
-		int beg = BCBase::BCType::None;
-		int end = BCBase::BCType::End;
-		ConfigOption::BCConfig *userdefbcs = ConfigOption::ConfigOption::getInstance()->getBCConfig();
-		for (int i = beg; i < end; ++i)
-		{
+		int						beg = BCBase::BCType::None;
+		int						end = BCBase::BCType::End;
+		ConfigOption::BCConfig* userdefbcs =
+			ConfigOption::ConfigOption::getInstance()->getBCConfig();
+		for(int i = beg; i < end; ++i) {
 			QString stype = BCBase::BCTypeToString((BCBase::BCType)i);
-			if (!userdefbcs->isEnable(stype, _data->getTreeType()))
+			if(!userdefbcs->isEnable(stype, _data->getTreeType()))
 				continue;
 			_ui->typeComboBox->addItem(stype, i);
 		}
-		//		ConfigOption::BCConfig* userdefbcs = ConfigOption::ConfigOption::getInstance()->getBCConfig();
+		//		ConfigOption::BCConfig* userdefbcs =
+		//ConfigOption::ConfigOption::getInstance()->getBCConfig();
 		const int n = userdefbcs->getBCCount(_data->getTreeType());
-		for (int i = 0; i < n; ++i)
-		{
-			BCBase::BCUserDef *bc = userdefbcs->getBCAt(i, _data->getTreeType());
+		for(int i = 0; i < n; ++i) {
+			BCBase::BCUserDef* bc = userdefbcs->getBCAt(i, _data->getTreeType());
 			_ui->typeComboBox->addItem(bc->getName(), BCBase::UserDef);
 		}
 	}
@@ -101,11 +97,13 @@ namespace ProjectTree
 		MeshData::MeshSet* set = MeshData::MeshData::getInstance()->getMeshSetByID(id);
 		assert(set != nullptr);
 		QString bcTypeToString = BCBase::BCTypeToString(bcType);//liu
-		BCBase::BCBase* bc = ParaClassFactory::BCFactory::createBCByType(bcType, name, _data->getTreeType());
+		BCBase::BCBase* bc = ParaClassFactory::BCFactory::createBCByType(bcType, name,
+	_data->getTreeType());
 
 		if (bc != nullptr)
 		{
-			//QString code = QString("Case.addBC(%1,%2,\"%3\")").arg(caseid).arg(id).arg(addIdValues.join(" "));//
+			//QString code =
+	QString("Case.addBC(%1,%2,\"%3\")").arg(caseid).arg(id).arg(addIdValues.join(" "));//
 			//qDebug() << code;
 			//Py::PythonAgent::getInstance()->submit(code);
 			bc->setType(bcType);
@@ -115,26 +113,27 @@ namespace ProjectTree
 	void AddBCDialog::accept()
 	{
 		//		const int index = _ui->typeComboBox->currentIndex();
-		//		BCBase::BCType bcType = (BCBase::BCType)(_ui->typeComboBox->itemData(index).toInt());  //Commented-Out By Baojun
-		int cpID = _ui->setComboBox->itemData(_ui->setComboBox->currentIndex(), Qt::UserRole + 1).toInt();
-		if (cpID < 0)
+		//		BCBase::BCType bcType =
+		//(BCBase::BCType)(_ui->typeComboBox->itemData(index).toInt());  //Commented-Out By Baojun
+		int cpID =
+			_ui->setComboBox->itemData(_ui->setComboBox->currentIndex(), Qt::UserRole + 1).toInt();
+		if(cpID < 0)
 			return;
 		QString typeName = _ui->typeComboBox->currentText();
 		//		QList<int> setidlist = _data->getMeshSetList();
-		int caseid = _data->getID();
+		int		caseid	 = _data->getID();
 
-		//		MeshData::MeshSet* set = MeshData::MeshData::getInstance()->getMeshSetByID(id); //Commented-Out By Baojun
-		//		if (set == nullptr) return;
-		//		int caseid = _data->getID();
+		//		MeshData::MeshSet* set = MeshData::MeshData::getInstance()->getMeshSetByID(id);
+		////Commented-Out By Baojun 		if (set == nullptr) return; 		int caseid = _data->getID();
 		//		assert(set != nullptr);
 		//		QString bctypetostring = BCBase::BCTypeToString(bcType);//liu
 
 		// submit py code
-		QString code = QString("Case.addBC(%1,%2,\"%3\")").arg(caseid).arg(cpID).arg(typeName);
+		QString code	 = QString("Case.addBC(%1,%2,\"%3\")").arg(caseid).arg(cpID).arg(typeName);
 		qDebug() << code;
 		Py::PythonAgent::getInstance()->submit(code);
 
 		QDialog::accept();
 	}
 
-}
+} // namespace ProjectTree

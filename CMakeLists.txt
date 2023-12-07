@@ -44,16 +44,16 @@ endif()
 #-----------------------------------------------------------------------------
 # 测试环境定义(如果在支持cmake系统的IDE中编写代码，可以打开以下注释，并将路径修改为自己的Qt路径)
 #-----------------------------------------------------------------------------
-#[[set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install")
+set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install")
 message(STATUS "${PROJECT_NAME} will be installed to ${CMAKE_INSTALL_PREFIX}")
 
 if (NOT DEFINED Qt5_DIR)
 	if(FASTCAE_LINUX)
 	set(Qt5_DIR "/opt/Qt5.14.2/5.14.2/gcc_64/lib/cmake/Qt5" CACHE PATH "Qt5Config.cmake所在目录" FORCE)
 	elseif(FASTCAE_WIN)
-	set(Qt5_DIR "D:/software/Qt/Qt5.14.2/5.14.2/msvc2017_64/lib/cmake/Qt5" CACHE PATH "Qt5Config.cmake所在目录" FORCE)
+	set(Qt5_DIR "D:/Qt/Qt5.14.2/5.14.2/msvc2017_64/lib/cmake/Qt5" CACHE PATH "Qt5Config.cmake所在目录" FORCE)
 	endif()
-endif()]]
+endif()
 
 #-----------------------------------------------------------------------------
 # 编译选项设置

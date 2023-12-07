@@ -13,7 +13,7 @@ namespace ModelData
 		static void addBC(int caseId, int id, char* bctypetostring);
 		static void setValue(int caseID, char* variable, char* stype, char* svalue);
 		static void setBCValue(int caseID, int index, char* variable, char* stype, char* svalue);
-		static void setProperty(int caseID, char* componentIDs, int materialID);
+		static void setMaterial(int caseID, char* componentIDs, int materialID);
 	};
 }
 
@@ -26,7 +26,7 @@ extern "C"
 	void MODELDATAAPI addBC(int caseId, int id, char* bctypetostring);
 	void MODELDATAAPI setValue(int caseID, char* variable, char* stype, char* svalue);
 	void MODELDATAAPI setBCValue(int caseID,int index,char* variable, char* stype, char* svalue);
-	void MODELDATAAPI setProperty(int caseID, char* componentIDs, int materialID);
+	void MODELDATAAPI setMaterial(int caseID, char* componentIDs, int materialID);
 }
 
 

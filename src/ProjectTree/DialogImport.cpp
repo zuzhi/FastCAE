@@ -1,6 +1,6 @@
 ﻿#include "DialogImport.h"
-#include "MeshData/meshSingleton.h"
-#include "MeshData/meshSet.h"
+#include "meshData/meshSingleton.h"
+#include "meshData/meshSet.h"
 #include "ModelData/modelDataBaseExtend.h"
 #include <QMap>
 #include <QDebug>
@@ -8,14 +8,15 @@
 #include "PythonModule/PyAgent.h"
 #include "ModelData/modelDataSingleton.h"
 #include "ModelData/modelDataBase.h"
-#include "Geometry/geometryData.h"
-#include "Geometry/geometrySet.h"
-#include "Geometry/GeoComponent.h"
+#include "geometry/geometryData.h"
+#include "geometry/geometrySet.h"
+#include "geometry/GeoComponent.h"
 
-namespace ProjectTree
-{
-	ImportDialog::ImportDialog(GUI::MainWindow *mainwindow, ModelData::ModelDataBaseExtend *data, ImportType t)
-		: ModuleBase::ComponentSelectDialogBase(mainwindow, nullptr, nullptr), _type(t)
+namespace ProjectTree {
+	ImportDialog::ImportDialog(GUI::MainWindow* mainwindow, ModelData::ModelDataBaseExtend* data,
+							   ImportType t)
+		: ModuleBase::ComponentSelectDialogBase(mainwindow, nullptr, nullptr)
+		, _type(t)
 	{
 		_data = data;
 		init();
@@ -57,53 +58,47 @@ namespace ProjectTree
 		}*/
 		// acceptGeo();
 		QMap<int, QString> idname = this->getSelectedItemIDNames();
-		QList<int> ids = idname.keys();
-		QStringList addIdValues{};
-		for (int id : ids)
+		QList<int>		   ids	  = idname.keys();
+		QStringList		   addIdValues{};
+		for(int id : ids)
 			addIdValues << QString::number(id);
-		int caseID = _data->getID();
-		QString code = QString("Case.importComponents(%1,\"%2\")").arg(caseID).arg(addIdValues.join(" "));
+		int		caseID = _data->getID();
+		QString code =
+			QString("Case.importComponents(%1,\"%2\")").arg(caseID).arg(addIdValues.join(" "));
 		Py::PythonAgent::getInstance()->submit(code);
 		ComponentSelectDialogBase::accept();
 	}
 
-	/// <summary>
-	/// 读取可用的几何组件
-	/// </summary>
 	void ImportDialog::initGeo()
 	{
-		Geometry::GeometryData *geoData = Geometry::GeometryData::getInstance();
-		const int n = geoData->getGeometrySetCount();
-		QList<int> geoIDs = _data->getGeometryList();
-		for (int i = 0; i < n; ++i)
-		{
-			Geometry::GeometrySet *set = geoData->getGeometrySetAt(i);
-			QString name = set->getName();
-			int id = set->getID();
-			QString icon = ":/QUI/icon/geometry.png";
-			if (geoIDs.contains(id))
+		Geometry::GeometryData* geoData = Geometry::GeometryData::getInstance();
+		const int				n		= geoData->getGeometrySetCount();
+		QList<int>				geoIDs	= _data->getGeometryList();
+		for(int i = 0; i < n; ++i) {
+			Geometry::GeometrySet* set	= geoData->getGeometrySetAt(i);
+			QString				   name = set->getName();
+			int					   id	= set->getID();
+			QString				   icon = ":/QUI/icon/geometry.png";
+			if(geoIDs.contains(id))
 				appendItemToSelectedList(name, id, icon);
 			else
 				appendItemToAvailableList(name, id, icon);
 		}
 	}
-	/// <summary>
-	/// 读取可用的网格组件
-	/// </summary>
+
 	void ImportDialog::initMeshSet()
 	{
-		MeshData::MeshData *meshData = MeshData::MeshData::getInstance();
-		const int n = meshData->getMeshSetCount();
-		QList<int> compIDs = _data->getMeshSetList();
-		for (int i = 0; i < n; ++i)
-		{
-			MeshData::MeshSet *set = meshData->getMeshSetAt(i);
-			QString name = set->getName();
-			int id = set->getID();
-			QString icon = ":/QUI/icon/node.png";
-			if (set->getSetType() == MeshData::Element)
+		MeshData::MeshData* meshData = MeshData::MeshData::getInstance();
+		const int			n		 = meshData->getMeshSetCount();
+		QList<int>			compIDs	 = _data->getMeshSetList();
+		for(int i = 0; i < n; ++i) {
+			MeshData::MeshSet* set	= meshData->getMeshSetAt(i);
+			QString			   name = set->getName();
+			int				   id	= set->getID();
+			QString			   icon = ":/QUI/icon/node.png";
+			if(set->getSetType() == MeshData::Element)
 				icon = ":/QUI/icon/mesh.png";
-			if (compIDs.contains(id))
+			if(compIDs.contains(id))
 				appendItemToSelectedList(name, id, icon);
 			else
 				appendItemToAvailableList(name, id, icon);
@@ -112,14 +107,13 @@ namespace ProjectTree
 
 	void ImportDialog::initGeoComponent()
 	{
-		auto geoData = Geometry::GeometryData::getInstance();
-		QList<int> geoIDs = _data->getGeoComponentIDList();
-		foreach (auto aGc, geoData->getGeoComponentList())
-		{
+		auto	   geoData = Geometry::GeometryData::getInstance();
+		QList<int> geoIDs  = _data->getGeoComponentIDList();
+		foreach(auto aGc, geoData->getGeoComponentList()) {
 			QString name = aGc->getName();
-			int id = aGc->getID();
+			int		id	 = aGc->getID();
 			QString icon = ":/QUI/icon/geometry.png";
-			if (geoIDs.contains(id))
+			if(geoIDs.contains(id))
 				appendItemToSelectedList(name, id, icon);
 			else
 				appendItemToAvailableList(name, id, icon);
@@ -129,17 +123,17 @@ namespace ProjectTree
 	void ImportDialog::acceptGeo()
 	{
 		QMap<int, QString> idname = this->getSelectedItemIDNames();
-		QStringList values = idname.values();
-		QList<int> ids = idname.keys();
-		QStringList addIdValues;
-		for (int i = 0; i < ids.size(); ++i)
-		{
+		QStringList		   values = idname.values();
+		QList<int>		   ids	  = idname.keys();
+		QStringList		   addIdValues;
+		for(int i = 0; i < ids.size(); ++i) {
 			addIdValues << QString::number(ids.at(i));
 		}
-		int id = _data->getID();
-		QString code = QString("Case.importGeometry(%1,\"%2\")").arg(id).arg(addIdValues.join(" ")); //
+		int		id = _data->getID();
+		QString code =
+			QString("Case.importGeometry(%1,\"%2\")").arg(id).arg(addIdValues.join(" ")); //
 		qDebug() << code;
-		if (ids.size() > 0)
+		if(ids.size() > 0)
 			Py::PythonAgent::getInstance()->submit(code);
 		ComponentSelectDialogBase::accept();
 	}
@@ -152,7 +146,8 @@ namespace ProjectTree
 	// 		foreach(int id, ids)
 	// 			addIdValues << QString::number(id);
 	// 		int caseID = _data->getID();
-	// 		QString code = QString("Case.importGeoComponents(%1,\"%2\")").arg(caseID).arg(addIdValues.join(" "));
+	// 		QString code =
+	// QString("Case.importGeoComponents(%1,\"%2\")").arg(caseID).arg(addIdValues.join(" "));
 	// 		Py::PythonAgent::getInstance()->submit(code);
 	// 	}
 
@@ -164,7 +159,8 @@ namespace ProjectTree
 	// 		foreach(int id, ids)
 	// 			addIdValues << QString::number(id);
 	// 		int caseID = _data->getID();
-	// 		QString code = QString("Case.importGeoComponents(%1,\"%2\")").arg(caseID).arg(addIdValues.join(" "));
+	// 		QString code =
+	// QString("Case.importGeoComponents(%1,\"%2\")").arg(caseID).arg(addIdValues.join(" "));
 	// 		Py::PythonAgent::getInstance()->submit(code);
 	// 	}
-}
+} // namespace ProjectTree
