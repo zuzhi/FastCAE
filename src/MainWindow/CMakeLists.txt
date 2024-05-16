@@ -11,7 +11,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 #-----------------------------------------------------------------------------
 # 添加资源文件
 #-----------------------------------------------------------------------------
-set(_qrc "${CMAKE_CURRENT_SOURCE_DIR}/../qrc/qianfan.qrc")
+set(_qrc "${CMAKE_CURRENT_SOURCE_DIR}/../qrc/qianfan.qrc" "${CMAKE_CURRENT_SOURCE_DIR}/../qrc/License.qrc")
 set(_lang "${CMAKE_CURRENT_SOURCE_DIR}/../qrc/translations.qrc")
 qt5_add_resources(_resource ${_qrc} ${_lang})
 

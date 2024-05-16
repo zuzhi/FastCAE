@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DlgCopyright</class>
+ <widget class="QDialog" name="DlgCopyright">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>669</width>
+    <height>632</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Copyright</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="UserLicense">
+      <attribute name="title">
+       <string>License</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QTextBrowser" name="textBrowser">
+         <property name="html">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC1&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;B&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;SD 3-Clause License&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC2&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;C&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;opyright (c) 2020, DISO&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC4&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;A&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;ll rights reserved.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC5&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;R&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;edistribution and use in source and binary forms, with or without&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC7&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;m&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;odification, are permitted provided that the following conditions are met:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC8&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;. Redistributions of source code must retain the above copyright notice, this&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC10&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;  list of conditions and the following disclaimer.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC11&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;. Redistributions in binary form must reproduce the above copyright notice,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC13&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;  this list of conditions and the following disclaimer in the documentation&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC14&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;  and/or other materials provided with the distribution.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC15&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;3&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;. Neither the name of the copyright holder nor the names of its&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC17&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;  contributors may be used to endorse or promote products derived from&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC18&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;  this software without specific prior written permission.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC19&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;T&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;HIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &amp;quot;AS IS&amp;quot;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC21&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;A&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;ND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC22&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;I&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;MPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC23&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;D&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;ISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC24&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;F&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;OR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC25&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;D&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;AMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC26&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;S&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;ERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC27&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;C&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;AUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC28&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;O&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;R TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:20px;&quot;&gt;&lt;a name=&quot;LC29&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;O&lt;/span&gt;&lt;span style=&quot; font-family:'consolas','Courier','MS Courier New','monospace'; font-size:12px; color:#333333;&quot;&gt;F THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="OpenSource">
+      <attribute name="title">
+       <string>Open Source</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QTableWidget" name="tableWidget">
+         <property name="sizeAdjustPolicy">
+          <enum>QAbstractScrollArea::AdjustIgnored</enum>
+         </property>
+         <property name="textElideMode">
+          <enum>Qt::ElideMiddle</enum>
+         </property>
+         <row>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>3</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>4</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>5</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>6</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>7</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>8</string>
+          </property>
+         </row>
+         <column>
+          <property name="text">
+           <string>Name</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>License</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Modify</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Source</string>
+          </property>
+         </column>
+         <item row="0" column="0">
+          <property name="text">
+           <string>CGNS</string>
+          </property>
+         </item>
+         <item row="0" column="1">
+          <property name="text">
+           <string>CGNS</string>
+          </property>
+         </item>
+         <item row="0" column="2">
+          <property name="text">
+           <string>NO</string>
+          </property>
+         </item>
+         <item row="0" column="3">
+          <property name="text">
+           <string>https://github.com/CGNS</string>
+          </property>
+         </item>
+         <item row="1" column="0">
+          <property name="text">
+           <string>HDF5</string>
+          </property>
+         </item>
+         <item row="1" column="1">
+          <property name="text">
+           <string>HDF5</string>
+          </property>
+         </item>
+         <item row="1" column="2">
+          <property name="text">
+           <string>NO</string>
+          </property>
+         </item>
+         <item row="1" column="3">
+          <property name="text">
+           <string>https://github.com/HDFGroup/hdf5/</string>
+          </property>
+         </item>
+         <item row="2" column="0">
+          <property name="text">
+           <string>OpenCASCADE</string>
+          </property>
+         </item>
+         <item row="2" column="1">
+          <property name="text">
+           <string>GNU LGPLv2.1 with additional exception</string>
+          </property>
+         </item>
+         <item row="2" column="2">
+          <property name="text">
+           <string>NO</string>
+          </property>
+         </item>
+         <item row="2" column="3">
+          <property name="text">
+           <string>https://dev.opencascade.org/release</string>
+          </property>
+         </item>
+         <item row="3" column="0">
+          <property name="text">
+           <string>Python</string>
+          </property>
+         </item>
+         <item row="3" column="1">
+          <property name="text">
+           <string>python</string>
+          </property>
+         </item>
+         <item row="3" column="2">
+          <property name="text">
+           <string>NO</string>
+          </property>
+         </item>
+         <item row="3" column="3">
+          <property name="text">
+           <string>https://www.python.org/</string>
+          </property>
+         </item>
+         <item row="4" column="0">
+          <property name="text">
+           <string>Qt</string>
+          </property>
+         </item>
+         <item row="4" column="1">
+          <property name="text">
+           <string>GNU LGPLv3</string>
+          </property>
+         </item>
+         <item row="4" column="2">
+          <property name="text">
+           <string>NO</string>
+          </property>
+         </item>
+         <item row="4" column="3">
+          <property name="text">
+           <string>https://github.com/qt/qt5</string>
+          </property>
+         </item>
+         <item row="5" column="0">
+          <property name="text">
+           <string>QuaZIP</string>
+          </property>
+         </item>
+         <item row="5" column="1">
+          <property name="text">
+           <string>GNU LGPLv2.1</string>
+          </property>
+         </item>
+         <item row="5" column="2">
+          <property name="text">
+           <string>NO</string>
+          </property>
+         </item>
+         <item row="5" column="3">
+          <property name="text">
+           <string>https://github.com/stachenov/quazip</string>
+          </property>
+         </item>
+         <item row="6" column="0">
+          <property name="text">
+           <string>Qwt</string>
+          </property>
+         </item>
+         <item row="6" column="1">
+          <property name="text">
+           <string>Qwt 1.0</string>
+          </property>
+         </item>
+         <item row="6" column="2">
+          <property name="text">
+           <string>NO</string>
+          </property>
+         </item>
+         <item row="6" column="3">
+          <property name="text">
+           <string>https://qwt.sourceforge.io/</string>
+          </property>
+         </item>
+         <item row="7" column="0">
+          <property name="text">
+           <string>VTK</string>
+          </property>
+         </item>
+         <item row="7" column="1">
+          <property name="text">
+           <string>BSD 3-Clause </string>
+          </property>
+         </item>
+         <item row="7" column="2">
+          <property name="text">
+           <string>NO</string>
+          </property>
+         </item>
+         <item row="7" column="3">
+          <property name="text">
+           <string>https://github.com/Kitware/VTK</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

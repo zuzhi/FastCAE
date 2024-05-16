@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/License">
+        <file>License/CGNS.txt</file>
+        <file>License/HDF5.txt</file>
+        <file>License/OpenCASCADE.txt</file>
+        <file>License/Python.txt</file>
+        <file>License/Qt.txt</file>
+        <file>License/QuaZIP.txt</file>
+        <file>License/Qwt.txt</file>
+        <file>License/VTK.txt</file>
+    </qresource>
+</RCC>

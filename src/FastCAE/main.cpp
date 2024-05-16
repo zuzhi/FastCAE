@@ -23,6 +23,7 @@
 #include "CommandLine.h"
 #include "FastCAEVersionMacros.h"
 #include "MainWindow/MainWindow.h"
+#include "MainWindow/FITKCopyrightDialog.h"
 #include "XBeautyUI.h"
 
 #include <QApplication>
@@ -31,9 +32,9 @@
 #include <QMessageBox>
 #include <QOpenGLContext>
 #include <QProcess>
-// #include "ConfigOptions/ConfigDataReader.h"
-// #include "ConfigOptions/ConfigOptions.h"
-// #include "ConfigOptions/GlobalConfig.h"
+ // #include "ConfigOptions/ConfigDataReader.h"
+ // #include "ConfigOptions/ConfigOptions.h"
+ // #include "ConfigOptions/GlobalConfig.h"
 #include "Common/DebugLogger.h"
 #include "Settings/BusAPI.h"
 
@@ -48,27 +49,28 @@
 
 bool testOpenGL()
 {
-	bool		   supportOpenGLCore	= false;
-	QString		   currentOpenGLVersion = "";
-	QOpenGLContext ctx;
-	if(ctx.create()) {
-		auto version = ctx.format();
-		if(version.majorVersion() > 3
-		   || (version.majorVersion() == 3 && version.minorVersion() >= 3)) {
-			supportOpenGLCore = true;
-		} else {
-			currentOpenGLVersion =
-				QString("%1.%2").arg(version.majorVersion()).arg(version.minorVersion());
-		}
-	}
-	if(!supportOpenGLCore) {
-		QMessageBox::critical(nullptr, "OpenGL Error",
-							  "Startup failed: FastCAE requires OpenGL version greater than or "
-							  "equal to 3.3, but the current version is "
-								  + currentOpenGLVersion,
-							  QMessageBox::Ok);
-	}
-	return supportOpenGLCore;
+    bool		   supportOpenGLCore = false;
+    QString		   currentOpenGLVersion = "";
+    QOpenGLContext ctx;
+    if (ctx.create()) {
+        auto version = ctx.format();
+        if (version.majorVersion() > 3
+            || (version.majorVersion() == 3 && version.minorVersion() >= 3)) {
+            supportOpenGLCore = true;
+        }
+        else {
+            currentOpenGLVersion =
+                QString("%1.%2").arg(version.majorVersion()).arg(version.minorVersion());
+        }
+    }
+    if (!supportOpenGLCore) {
+        QMessageBox::critical(nullptr, "OpenGL Error",
+            "Startup failed: FastCAE requires OpenGL version greater than or "
+            "equal to 3.3, but the current version is "
+            + currentOpenGLVersion,
+            QMessageBox::Ok);
+    }
+    return supportOpenGLCore;
 }
 /**
  * @brief 程序的入口函数
@@ -79,79 +81,82 @@ bool testOpenGL()
  */
 int main(int argc, char* argv[])
 {
-	// 添加Qt的对高分屏的支持
+    // 添加Qt的对高分屏的支持
 #if(QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
-	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
-	CommandPara para(argc, argv);
-	if(para.isHelp())
-		return 1;
 
-	QApplication app(argc, argv);
-	if(!testOpenGL()) {
-		return 1;
-	}
-	// 	QString path = qApp->applicationDirPath();
-	// 	ConfigOption::ConfigDataReader reader(path + "/../ConfigFiles/",
-	// ConfigOption::ConfigOption::getInstance()); 	reader.read(); 	QString qUseRibbon =
-	// ConfigOption::ConfigOption::getInstance()->getGlobalConfig()->getUseRibbon(); 	bool
-	// bUseRibbon = qUseRibbon == "yes" ? true : false;
+    CommandPara para(argc, argv);
+    if (para.isHelp())
+        return 1;
 
-	bool			isRibbon = Setting::BusAPI::instance()->isUseRibbon();
+    QApplication app(argc, argv);
+    if (!testOpenGL()) {
+        return 1;
+    }
+    auto copyRightDialog = new FITKCopyRightDialog;
+    copyRightDialog->exec();
+    // 	QString path = qApp->applicationDirPath();
+    // 	ConfigOption::ConfigDataReader reader(path + "/../ConfigFiles/",
+    // ConfigOption::ConfigOption::getInstance()); 	reader.read(); 	QString qUseRibbon =
+    // ConfigOption::ConfigOption::getInstance()->getGlobalConfig()->getUseRibbon(); 	bool
+    // bUseRibbon = qUseRibbon == "yes" ? true : false;
 
-	GUI::MainWindow mainwindow(isRibbon);
+    bool			isRibbon = Setting::BusAPI::instance()->isUseRibbon();
 
-	/******************************************************************************/
-	XBeautyUI::instance()->setQssFilePath(":/Beauty/QUI/beauty/qianfan.qss");
-	XBeautyUI::instance()->autoSetStyle();
-	QString qssFileName = XBeautyUI::instance()->qssFilePath();
+    GUI::MainWindow mainwindow(isRibbon);
 
-	//**************加载qss******************
-	QFile	qssFile(qssFileName);
-	if(qssFile.exists()) {
-		qssFile.open(QIODevice::ReadOnly);
-		QString style = qssFile.readAll();
-		qApp->setStyleSheet(style);
-		qssFile.close();
-	}
-	//*****************************************
+    /******************************************************************************/
+    XBeautyUI::instance()->setQssFilePath(":/Beauty/QUI/beauty/qianfan.qss");
+    XBeautyUI::instance()->autoSetStyle();
+    QString qssFileName = XBeautyUI::instance()->qssFilePath();
 
-	//***************正版验证******************
+    //**************加载qss******************
+    QFile	qssFile(qssFileName);
+    if (qssFile.exists()) {
+        qssFile.open(QIODevice::ReadOnly);
+        QString style = qssFile.readAll();
+        qApp->setStyleSheet(style);
+        qssFile.close();
+    }
+    //*****************************************
+
+    //***************正版验证******************
 #ifdef Q_OS_WIN
-	// 	Confirmation confirm;
-	// 	confirm.setParent(&mainwindow);
-	// 	if (!confirm.licenseCheck())
-	// 	{
-	// 		return 0;
-	// 	}
+    // 	Confirmation confirm;
+    // 	confirm.setParent(&mainwindow);
+    // 	if (!confirm.licenseCheck())
+    // 	{
+    // 		return 0;
+    // 	}
 #endif
-	//*****************************************
+    //*****************************************
 
-	if(para.exec(&mainwindow))
-		emit mainwindow.sendInfoToStatesBar(QString("Version: %1").arg(FASTCAE_VERSION));
-	else
-		return 1;
+    if (para.exec(&mainwindow))
+        emit mainwindow.sendInfoToStatesBar(QString("Version: %1").arg(FASTCAE_VERSION));
+    else
+        return 1;
 
-	int e = app.exec();
+    int e = app.exec();
 
 #ifdef Q_OS_WIN
 #ifdef _DEBUG
 
-	// 	if (CHECKINGMEMORY)
-	// 	{
-	// 		printf("check memory leak ...\n");
-	// 		_CrtDumpMemoryLeaks();
-	// 		printf("check over.\n");
-	// 	}
-	//
+    // 	if (CHECKINGMEMORY)
+    // 	{
+    // 		printf("check memory leak ...\n");
+    // 		_CrtDumpMemoryLeaks();
+    // 		printf("check over.\n");
+    // 	}
+    //
 #endif
 #endif
 
-	if(e == -1000) {
-		QProcess::startDetached(qApp->applicationFilePath(), QStringList());
-		return 0;
-	}
+    if (e == -1000) {
+        QProcess::startDetached(qApp->applicationFilePath(), QStringList());
+        return 0;
+    }
 
-	return e;
+    return e;
 }
