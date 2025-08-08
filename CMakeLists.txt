@@ -260,6 +260,7 @@ else()
 endif()
 #set(INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR})
 
+include_directories(${CMAKE_SOURCE_DIR}/src/moduleBase)
 
 #-----------------------------------------------------------------------------
 # 编译位置无关的代码

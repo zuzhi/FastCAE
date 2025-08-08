@@ -3,10 +3,10 @@
 #include <QLabel>
 #include <QComboBox>
 #include "ModelData/modelDataBaseExtend.h"
-#include "meshData/meshSingleton.h"
-#include "meshData/meshSet.h"
-#include "geometry/geometryData.h"
-#include "geometry/GeoComponent.h"
+#include "MeshData/meshSingleton.h"
+#include "MeshData/meshSet.h"
+#include "Geometry/geometryData.h"
+#include "Geometry/GeoComponent.h"
 #include "Material/MaterialSingletion.h"
 #include "Material/Material.h"
 #include "PythonModule/PyAgent.h"

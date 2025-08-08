@@ -6,10 +6,10 @@
 #include <QTime>
 #include "ConfigOptions/TreeItemData.h"
 #include "ConfigOptions/ProjectTreeInfo.h"
-#include "mainWindow/mainWindow.h"
+#include "MainWindow/MainWindow.h"
 #include "ModelData/modelDataBase.h"
 #include "ModelData/modelDataSingleton.h"
-#include "settings/busAPI.h"
+#include "Settings/BusAPI.h"
 #include <QDebug>
 #include <QFile>
 #include <QMessageBox>

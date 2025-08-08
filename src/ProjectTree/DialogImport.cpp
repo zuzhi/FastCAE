@@ -1,6 +1,6 @@
 ﻿#include "DialogImport.h"
-#include "meshData/meshSingleton.h"
-#include "meshData/meshSet.h"
+#include "MeshData/meshSingleton.h"
+#include "MeshData/meshSet.h"
 #include "ModelData/modelDataBaseExtend.h"
 #include <QMap>
 #include <QDebug>
@@ -8,9 +8,9 @@
 #include "PythonModule/PyAgent.h"
 #include "ModelData/modelDataSingleton.h"
 #include "ModelData/modelDataBase.h"
-#include "geometry/geometryData.h"
-#include "geometry/geometrySet.h"
-#include "geometry/GeoComponent.h"
+#include "Geometry/geometryData.h"
+#include "Geometry/geometrySet.h"
+#include "Geometry/GeoComponent.h"
 
 namespace ProjectTree {
 	ImportDialog::ImportDialog(GUI::MainWindow* mainwindow, ModelData::ModelDataBaseExtend* data,

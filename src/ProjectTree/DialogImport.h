@@ -1,7 +1,7 @@
 ﻿#ifndef _DIALOGIMPORTMESHSET_
 #define _DIALOGIMPORTMESHSET_
 
-#include "moduleBase/componentDialogBase.h"
+#include "ModuleBase/componentDialogBase.h"
 
 namespace GUI
 {
